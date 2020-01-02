@@ -1,0 +1,63 @@
+router configuration :
+
+
+Router>en
+Router#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#int fa0/0
+Router(config-if)#ip add 192.168.10.1 255.255.255.0
+Router(config-if)#no shut
+
+Router(config-if)#
+%LINK-5-CHANGED: Interface FastEthernet0/0, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/0, changed state to up
+
+Router(config-if)#exit
+Router(config)#ip dhcp pool voice
+Router(dhcp-config)#network 192.168.10.0 255.255.255.0
+Router(dhcp-config)#default-router 192.168.10.1
+Router(dhcp-config)#option 150 ip 192.168.10.1
+Router(dhcp-config)#exit
+
+Router(config)#telephony-service
+Router(config-telephony)#max-dn 4
+Router(config-telephony)#max-ephone 10
+Router(config-telephony)#ip source-address 192.168.10.1 port 2000
+Router(config-telephony)#auto assign 1 to 5
+Router(config-telephony)#
+Router(config-telephony)#exit
+
+   %  now configure switch  then back again here %
+
+
+Router(config)#ephone-dn 1
+Router(config-ephone-dn)#number 5401
+Router(config-ephone-dn)#exit
+
+Router(config)#ephone-dn 2
+Router(config-ephone-dn)#number 5402
+Router(config-ephone-dn)#exit
+
+Router(config)#ephone-dn 3
+Router(config-ephone-dn)#number 5403
+Router(config-ephone-dn)#exit
+
+Router(config)#ephone-dn 4
+Router(config-ephone-dn)#number 5404
+Router(config-ephone-dn)#exit
+
+
+
+switch configuration:
+en
+Switch#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#int range fa0/1-10
+Switch(config-if-range)#switchport mode access
+Switch(config-if-range)#switchport voice vlan 1
+
+
+home work :
+max-dn 8 (with 8 ip telephone )
+max-ephone 10
