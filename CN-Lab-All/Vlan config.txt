@@ -1,0 +1,75 @@
+Switch>en
+Switch#vlan database
+Switch(vlan)#vlan 51 name A
+VLAN 51 added:
+    Name: A
+Switch(vlan)#vlan 52 name B
+Switch(vlan)#vlan 53 name C
+Switch(vlan)#vlan 54 name D
+Switch(vlan)#exit
+
+
+Switch#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#int fa0/7
+Switch(config-if)#switchport mode access
+Switch(config-if)#switchport access vlan 51
+Switch(config-if)#int fa0/8
+Switch(config-if)#switchport mode access
+Switch(config-if)#switchport access vlan 51
+Switch(config-if)#int fa0/1
+Switch(config-if)#switchport mode access
+Switch(config-if)#switchport access vlan 52
+Switch(config-if)#int fa0/2
+Switch(config-if)#switchport mode access
+Switch(config-if)#switchport access vlan 52
+Switch(config-if)#int fa0/3
+Switch(config-if)#switchport mode access
+Switch(config-if)#switchport access vlan 53
+Switch(config-if)#int fa0/4
+Switch(config-if)#switchport mode access
+Switch(config-if)#switchport access vlan 53
+Switch(config-if)#int fa0/5
+Switch(config-if)#switchport mode access
+Switch(config-if)#switchport access vlan 54
+Switch(config-if)#int fa0/6
+Switch(config-if)#switchport mode access
+Switch(config-if)#switchport access vlan 54
+Switch(config-if)#end
+Switch#sh vlan brief
+
+ping 192.168.4.2
+ping 192.168.5.2
+
+
+For router::
+above all code then,
+Switch>en
+Switch#conf t
+Switch(config)#int fa0/9
+Switch(config-if)#switchport mode trunk
+Switch(config-if)#end
+Switch#sh vlan brief
+
+Router>en
+Router#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#int fa0/0
+Router(config-if)#no shut
+Router(config-if)#int fa0/0.1
+Router(config-subif)#encapsulation dot1q 1
+Router(config-subif)#ip add 192.168.1.1 255.255.255.0
+Router(config-subif)#int fa0/0.2
+Router(config-subif)#encapsulation dot1q 51
+Router(config-subif)#ip add 192.168.2.1 255.255.255.0
+Router(config-subif)#int fa0/0.3
+Router(config-subif)#encapsulation dot1q 52
+Router(config-subif)#ip add 192.168.3.1 255.255.255.0
+Router(config-subif)#int fa0/0.4
+Router(config-subif)#encapsulation dot1q 53
+Router(config-subif)#ip add 192.168.4.1 255.255.255.0
+Router(config-subif)#int fa0/0.5
+Router(config-subif)#encapsulation dot1q 54
+Router(config-subif)#ip add 192.168.5.1 255.255.255.0
+Router(config-subif)#end
+Router#sh ip route

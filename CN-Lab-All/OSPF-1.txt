@@ -1,0 +1,25 @@
+Router>en
+Router#conf t
+Router(config)#int fa0/0
+Router(config-if)#ip add 192.168.1.2 255.255.255.0
+Router(config-if)#no shut
+Router(config-if)#exit
+Router(config)#int se0/1/0
+Router(config-if)#ip add 192.168.8.2 255.255.255.0
+Router(config-if)#clock rate 64000
+Router(config-if)#no shut
+Router(config-if)#exit
+Router(config)#int se0/1/1
+Router(config-if)#ip add 192.168.6.1 255.255.255.0
+Router(config-if)#no shut
+Router(config-if)#exit
+Router(config)#exit
+Router#copy running-config startup-config
+Destination filename [startup-config]? 
+Building configuration...
+[OK]
+Router#conf t
+Router(config)#router ospf 1
+Router(config-router)#network 192.168.1.0 0.0.0.255 area 0
+Router(config-router)#network 192.168.6.0 0.0.0.255 area 0
+Router(config-router)#network 192.168.8.0 0.0.0.255 area 0
